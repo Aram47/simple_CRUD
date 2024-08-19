@@ -1,98 +1,148 @@
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
-    const formTitle = document.getElementById('form-title');
-    const switchFormText = document.getElementById('switchFormText');
-    const switchFormLink = document.getElementById('switchFormLink');
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    const deleteAccountForm = document.getElementById('deleteAccountForm');
 
-    // Function to toggle between Login and Register forms
-    function toggleForms() {
-        if (loginForm.style.display === 'none') {
-            loginForm.style.display = 'block';
-            registerForm.style.display = 'none';
-            formTitle.textContent = 'Login';
-            switchFormText.textContent = "Don't have an account?";
-            switchFormLink.textContent = "Register here";
-        } else {
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-            formTitle.textContent = 'Register';
-            switchFormText.textContent = "Already have an account?";
-            switchFormLink.textContent = "Login here";
-        }
+    function showForm(formToShow) {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'none';
+        forgotPasswordForm.style.display = 'none';
+        deleteAccountForm.style.display = 'none';
+
+        formToShow.style.display = 'block';
     }
 
-    // Event listener for the switch form link
-    switchFormLink.addEventListener('click', function(event) {
+    // Show login form on page load
+    showForm(loginForm);
+
+    document.getElementById('toRegister').addEventListener('click', function(event) {
         event.preventDefault();
-        toggleForms();
+        showForm(registerForm);
     });
 
-    // Event listener for the login form submission
-    loginForm.addEventListener('submit', function(event) {
+    document.getElementById('toLogin').addEventListener('click', function(event) {
         event.preventDefault();
+        showForm(loginForm);
+    });
 
-        const email = document.getElementById('login-email').value;
+    document.getElementById('toForgotPassword').addEventListener('click', function(event) {
+        event.preventDefault();
+        showForm(forgotPasswordForm);
+    });
+
+    document.getElementById('backToLogin').addEventListener('click', function(event) {
+        event.preventDefault();
+        showForm(loginForm);
+    });
+
+    document.getElementById('toDeleteAccount').addEventListener('click', function(event) {
+        event.preventDefault();
+        showForm(deleteAccountForm);
+    });
+
+    document.getElementById('backToLoginFromDelete').addEventListener('click', function(event) {
+        event.preventDefault();
+        showForm(loginForm);
+    });
+
+    // Handle login form submission
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
 
-        // Fetch request to the backend for login
         fetch('http://localhost:5050/Login', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = 'success.html'; // Redirect to success page
+                alert('Login successful');
+                // Redirect or handle successful login here
             } else {
-                window.location.href = 'error.html'; // Redirect to error page
+                alert('Login failed: ' + data.message);
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            window.location.href = 'error.html'; // Redirect to error page on exception
+        .catch(() => {
+            alert('Login failed. Please try again.');
         });
     });
 
-    // Event listener for the registration form submission
-    registerForm.addEventListener('submit', function(event) {
+    // Handle registration form submission
+    document.getElementById('register-form').addEventListener('submit', function(event) {
         event.preventDefault();
-
-        const email = document.getElementById('register-email').value;
         const username = document.getElementById('register-username').value;
         const password = document.getElementById('register-password').value;
 
-        // Fetch request to the backend for registration
         fetch('http://localhost:5050/SignUp', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                username: username,
-                password: password
-            })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 alert('Registration successful');
-                window.location.href = 'success.html'; // Redirect to success page
+                showForm(loginForm);
             } else {
                 alert('Registration failed: ' + data.message);
-                window.location.href = 'error.html'; // Redirect to error page
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            window.location.href = 'error.html'; // Redirect to error page on exception
+        .catch(() => {
+            alert('Registration failed. Please try again.');
+        });
+    });
+
+    // Handle forgot password form submission
+    document.getElementById('forgot-password-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('forgot-username').value;
+        const email = document.getElementById('forgot-email').value;
+
+        fetch('http://localhost:5050/ForgotPassword', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Password reset email sent');
+                showForm(loginForm);
+            } else {
+                alert('Password reset failed: ' + data.message);
+            }
+        })
+        .catch(() => {
+            alert('Password reset failed. Please try again.');
+        });
+    });
+
+    // Handle delete account form submission
+    document.getElementById('delete-account-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('delete-username').value;
+        const password = document.getElementById('delete-password').value;
+
+        fetch('http://localhost:5050/DeleteAccount', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Account deleted successfully');
+                showForm(loginForm);
+            } else {
+                alert('Account deletion failed: ' + data.message);
+            }
+        })
+        .catch(() => {
+            alert('Account deletion failed. Please try again.');
         });
     });
 });

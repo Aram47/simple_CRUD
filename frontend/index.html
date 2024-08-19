@@ -3,50 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login & Registration</title>
+    <title>Login / Register</title>
     <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="form-container">
-            <h2 id="form-title">Login</h2>
-
             <!-- Login Form -->
-            <form id="loginForm">
-                <div class="input-group">
-                    <label for="login-email">Email:</label>
-                    <input type="email" id="login-email" name="email" required>
-                </div>
-                <div class="input-group">
-                    <label for="login-password">Password:</label>
-                    <input type="password" id="login-password" name="password" required>
-                </div>
-                <button type="submit">Login</button>
-            </form>
+            <div id="loginForm">
+                <h1>Login</h1>
+                <form id="login-form">
+                    <div class="input-group">
+                        <label for="login-username">Username:</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                    <p>Don't have an account? <a href="#" id="toRegister">Register here</a></p>
+                    <p><a href="#" id="toForgotPassword">Forgot Password?</a></p>
+                    <p><a href="#" id="toDeleteAccount">Delete Account</a></p>
+                </form>
+            </div>
 
-            <!-- Registration Form -->
-            <form id="registerForm" style="display: none;">
-                <div class="input-group">
-                    <label for="register-email">Email:</label>
-                    <input type="email" id="register-email" name="email" required>
-                </div>
-                <div class="input-group">
-                    <label for="register-username">Username:</label>
-                    <input type="text" id="register-username" name="username" required>
-                </div>
-                <div class="input-group">
-                    <label for="register-password">Password:</label>
-                    <input type="password" id="register-password" name="password" required>
-                </div>
-                <button type="submit">Register</button>
-            </form>
+            <!-- Register Form -->
+            <div id="registerForm" style="display: none;">
+                <h1>Register</h1>
+                <form id="register-form">
+                    <div class="input-group">
+                        <label for="register-username">Username:</label>
+                        <input type="text" id="register-username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="register-password">Password:</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <button type="submit">Register</button>
+                    <p>Already have an account? <a href="#" id="toLogin">Login here</a></p>
+                </form>
+            </div>
 
-            <p class="switch-form">
-                <span id="switchFormText">Don't have an account?</span> 
-                <a href="#" id="switchFormLink">Register here</a>
-            </p>
+            <!-- Forgot Password Form -->
+            <div id="forgotPasswordForm" style="display: none;">
+                <h1>Forgot Password</h1>
+                <form id="forgot-password-form">
+                    <div class="input-group">
+                        <label for="forgot-username">Username:</label>
+                        <input type="text" id="forgot-username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="forgot-email">Email:</label>
+                        <input type="email" id="forgot-email" required>
+                    </div>
+                    <button type="submit">Reset Password</button>
+                    <p><a href="#" id="backToLogin">Back to Login</a></p>
+                </form>
+            </div>
+
+            <!-- Delete Account Form -->
+            <div id="deleteAccountForm" style="display: none;">
+                <h1>Delete Account</h1>
+                <form id="delete-account-form">
+                    <div class="input-group">
+                        <label for="delete-username">Username:</label>
+                        <input type="text" id="delete-username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="delete-password">Password:</label>
+                        <input type="password" id="delete-password" required>
+                    </div>
+                    <button type="submit">Delete Account</button>
+                    <p><a href="#" id="backToLoginFromDelete">Back to Login</a></p>
+                </form>
+            </div>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
