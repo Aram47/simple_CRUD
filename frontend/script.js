@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
         formToShow.style.display = 'block';
     }
 
-    // Show login form on page load
     showForm(loginForm);
 
     document.getElementById('toRegister').addEventListener('click', function(event) {
@@ -46,13 +45,12 @@ document.addEventListener('DOMContentLoaded', function() {
         showForm(loginForm);
     });
 
-    // Handle login form submission
     document.getElementById('login-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const username = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
 
-        fetch('http://localhost:5050/Login', {
+        fetch('http://localhost:5050/SignIn', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -61,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 alert('Login successful');
-                // Redirect or handle successful login here
             } else {
                 alert('Login failed: ' + data.message);
             }
@@ -71,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle registration form submission
     document.getElementById('register-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const username = document.getElementById('register-username').value;
@@ -96,13 +92,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle forgot password form submission
     document.getElementById('forgot-password-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const username = document.getElementById('forgot-username').value;
         const email = document.getElementById('forgot-email').value;
 
-        fetch('http://localhost:5050/ForgotPassword', {
+        fetch('http://localhost:5050/Forgot', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email })
@@ -121,13 +116,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle delete account form submission
     document.getElementById('delete-account-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const username = document.getElementById('delete-username').value;
         const password = document.getElementById('delete-password').value;
 
-        fetch('http://localhost:5050/DeleteAccount', {
+        fetch('http://localhost:5050/Delete', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
